@@ -1,0 +1,497 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Testing</title>
+
+		<meta name="description" content="">
+		<meta name="author" content="Eric R. Bollens">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="../css/reveal.css">
+		<link rel="stylesheet" href="../css/theme/cloudcompli.css" id="theme">
+
+		<!-- Code syntax highlighting -->
+		<link rel="stylesheet" href="../lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? '../css/print/pdf.css' : '../css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="../lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+                
+            <header>
+                <img src="../img/cloudcompli-logo.png">
+            </header>
+
+            <footer>
+                <a href="http://cloudcompli.github.io/p/testing" target="_blank">cloudcompli.github.io/p/testing</a>
+            </footer>
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+                
+				<section>
+					<h1>Testing</h1>
+                    <h3>for Enterprise</h3>
+					<p>
+						<small>Eric Bollens / <a href="mailto:eric@eb.io">eric@eb.io</a> / <a href="http://github.com/ebollens">ebollens [GitHub]</a> / <a href="http://twitter.com/ericbollens">@ericbollens [Twitter]</a></small>
+					</p>
+				</section>
+                
+                <section>
+                    
+                    <section>
+                        <h2>Concepts</h2>
+                    </section>
+                    
+                    <section>
+                        <h2>Flavors</h2>
+                        <p class="fragment">
+                            <strong>Unit Tests</strong>
+                            <br>a single function
+                        </p>
+                        <p class="fragment">
+                            <strong>Integration Tests</strong>
+                            <br>multiple classes/units
+                        </p>
+                        <p class="fragment">
+                            <strong>Functional Tests</strong>
+                            <br>user-oriented, high-level, full-stack
+                        </p>
+                        <p class="fragment">
+                            <strong>Smoke Tests</strong>
+                            <br>whether the building is burning down
+                        </p>
+                    </section>
+                    
+                    <section>
+                        <h2>Principles</h2>
+                        <p class='fragment'>Automation is repeatable and consistent</p>
+                        <p class="fragment">Write with continuous improvement in mind</p>
+                        <p class="fragment">It isn't a feature without tests</p>
+                        <p class="fragment">It isn't a bug fix without a repro test</p>
+                    </section>
+                    
+                </section>
+                
+                <section>
+                    
+                    <section>
+                        <h2>PHPUnit</h2>
+                    </section>
+                    
+                    <section>
+                        <h2>Usage</h2>
+                        <p class="fragment">Command-line test runner</p>
+                        <pre class="fragment"><code>phpunit</code></pre>
+                        <pre class="fragment"><code>PHPUnit 4.0.20 by Sebastian Bergmann.
+
+Configuration read from ~/Developer/cloudcompli/safe_data/phpunit.xml
+
+.............................................
+
+Time: 51 ms, Memory: 4.50Mb
+
+OK (45 tests, 70 assertions)</code></pre>
+                    </section>
+                    
+                    <section>
+                        <h2>Installation</h2>
+                        <p class="fragment">Via Homebrew</p>
+                        <pre class="fragment"><code>brew install php</code></pre>
+                        <p class="fragment">Via PEAR</p>
+                        <pre class="fragment"><code>sudo pear channel-discover pear.phpunit.de
+sudo pear channel-discover pear.symfony-project.com
+sudo pear channel-discover pear.symfony.com
+sudo pear channel-discover components.ez.no
+sudo pear install --alldeps phpunit/PHPUnit</code></pre>
+                        <p class="fragment">As a PHAR</p>
+                        <pre class="fragment"><code>wget https://phar.phpunit.de/phpunit.phar
+$ chmod +x phpunit.phar
+$ sudo mv phpunit.phar /usr/local/bin/phpunit</code></pre>
+                    </section>
+                    
+                    <section>
+                        <h2>Configuration</h2>
+                        <p class="fragment">Through <code>phpunit.xml</code></p>
+                        <pre class="fragment"><code>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;phpunit backupGlobals="false"
+         backupStaticAttributes="false"
+         bootstrap="./vendor/autoload.php"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="false"
+         syntaxCheck="false">
+    &lt;testsuites>
+        &lt;testsuite name="Package Tests">
+            &lt;directory>./tests/&lt;/directory>
+        &lt;/testsuite>
+    &lt;/testsuites>
+&lt;/phpunit></code></pre>
+                    </section>
+                    
+                    <section>
+                        <h2>Hello World</h2>
+                        <pre class='fragment'><code>class HelloWorld {
+    public $helloWorld;
+    public function __construct($string = 'Hello World'){
+        $this->helloWorld = $string;
+    }
+    public function sayHello(){
+        return $this->helloWorld;
+    }
+}</code></pre>
+                        <pre class='fragment'><code>public function testSayHello(){
+    $hw = new HelloWorld('Hello!!!');
+    $this->assertEquals('Hello!!!', $hw->sayHello());
+}</code></pre>
+                        <pre class='fragment'><code>public function testSayHelloDefaultParameters(){
+    $hw = new HelloWorld();
+    $this->assertEquals('Hello World', $hw->sayHello());
+}</code></pre>
+                    </section>
+                    
+                    <section>
+                        <h2>Basic Assertions</h2>
+                        <pre class='fragment'><code>public function testInvoke(){
+    $object = new SafeData_Null();
+    $this->assertNull($object());
+}</code></pre>
+                        <pre class='fragment'><code>public function testExists(){
+    $object = new SafeData_Null();
+    $this->assertFalse($object->exists());
+}</code></pre>
+                        <pre class='fragment'><code>public function testToString(){
+    $object = new SafeData_Null();
+    $this->assertEquals('', $object->__toString());
+}</code></pre>
+                    </section>
+                    
+                    <section>
+                        <h2>More Assertions</h2>
+                        <pre class='fragment'><code class="php">public function testGetIterator(){
+    $object = new SafeData_Null();
+    $iterator = $object->getIterator();
+    $this->assertInstanceOf(ArrayIterator::class, $iterator);
+    $this->assertNull($iterator->current());
+    $this->assertCount(0, $iterator);
+}</code></pre>
+                        <pre class='fragment'><code class="php">/**
+ * @expectedException InvalidArgumentException
+ */
+public function testException(){
+    throw new InvalidArgumentException('message');
+}</code></pre>
+                        <pre class='fragment'><code class="php">/**
+ * @expectedException PHPUnit_Framework_Error
+ */
+public function testFailingInclude(){
+    include 'does_not_exist.php';
+}</code></pre>
+                    </section>
+                    
+                    <section>
+                        <h2>And A Lot More</h2>
+                        <p class='fragment'><a href="https://phpunit.de/manual/current/en/writing-tests-for-phpunit.html" target="_blank">phpunit.de/manual/current/en/writing-tests-for-phpunit.html</a></p>
+                    </section>
+                    
+                </section>
+                
+                <section>
+                    
+                    <section>
+                        <h2>Unit Tests for Enterprise</h2>
+                    </section>
+                    
+                    <section>
+                        <h2>phpunit.xml</h2>
+                        <pre class="fragment"><code>&lt;testsuites>
+    &lt;testsuite name="Application Test Suite">
+        &lt;directory>./tests/&lt;/directory>
+        &lt;directory>./vendor/cloudcompli/*/tests/&lt;/directory>
+    &lt;/testsuite>
+&lt;/testsuites></code></pre>
+                        <p class="fragment">If it's a CloudCompli module, just add unit tests as normal</p>
+                        <p class='fragment'>Calling <code>phpunit</code> from enterprise will run module tests</p>
+                    </section>
+                    
+                    <section>
+                        <h2>Defining a Test</h2>
+                        <pre class="fragment"><code>namespace CloudCompli\Common;
+
+/* .. */
+
+class AuthTest extends TestCase
+{
+    /* .. */
+}</code></pre>
+                        <p class='fragment'><code>tests/AuthTest.php</code></p>
+                        <p class='fragment'><code>vendor/cloudcompli/common/tests/AuthTest.php</code></p>
+                    </section>
+                    
+                    <section>
+                        <h2>Writing a Test</h2>
+                        <pre class='fragment'><code class='php'>public function testAuthBind(){
+    $this->assertFalse(Auth::exists());
+    $this->assertTrue(Auth::guest());
+    Auth::bind($this->user);
+    $this->assertEquals($this->user->id, Auth::user()->id);
+    $this->assertTrue(Auth::exists());
+    $this->assertFalse(Auth::guest());
+}</code></pre>
+                        <pre class='fragment'><code class='php'>public function setUp(){
+    parent::setUp();
+    $this->user = User::withoutGuard(function(){
+        return User::create(['username' => 'testUserForAuthTest']);
+    });
+}</code></pre>
+                        <pre class='fragment'><code class='php'>public function teardown() {
+    $this->user->delete();
+    parent::teardown();
+}</code></pre>
+                    </section>
+                    
+                </section>
+                
+                <section>
+                    
+                    <section>
+                        <h2>Integration Tests for Enterprise</h2>
+                    </section>
+                    
+                    <section>
+                        <h2>The Challenges</h2>
+                        <p class='fragment'>
+                            Many controllers in packages are base classes
+                        </p>
+                        <p class='fragment'>
+                            Routing is not explicitly bound to controller name
+                        </p>
+                    </section>
+                    
+                    <section>
+                        <h2>Test Classes</h2>
+                        <p class='fragment'><code>vendor/cloudcompli/common/src/<br>Tests/Http/Controllers/AuthControllerTest.php</code></p>
+                        <pre class='fragment'><code class='php'>namespace CloudCompli\Common\Tests\Http\Controllers;
+
+abstract class AuthControllerTest extends TestCase
+{ /* .. */ }</code></pre>
+                        <p class='fragment'><code>tests/Http/Controllers/AuthControllerTest.php</code></p>
+                        <pre class='fragment'><code class='php'>namespace Test\Http\Controllers;
+
+use CloudCompli\Common\Tests\Http\Controllers\AuthControllerTest 
+        as BaseAuthControllerTest;
+
+class AuthControllerTest extends BaseAuthControllerTest 
+{ /* .. */ }</code></pre>
+                    </section>
+                    
+                    <section>
+                        <h2>Route Interactions</h2>
+                        <pre class='fragment'><code class='php'>public function testAuthSuccess(){
+    $this->visit(static::$authLoginRoute)
+            ->type(static::$validUsername, 'username')
+            ->type(static::$validPassword, 'password')
+            ->press('login')
+            ->seePageIs(static::$authLoginSuccessRoute);
+}</code></pre>
+                        <pre class='fragment'><code class='php'>public static $authLoginRoute = '/auth/login'
+public static $authLoginSuccessRoute = '/';
+public static $validUsername = 'admin';
+public static $validPassword = 'password';</code></pre>
+                    </section>
+                    
+                    <section>
+                        <h2>Multi-Route Interactions</h2>
+                        <pre class='fragment'><code class='php'>public function testAuthLogout(){
+    $user = User::where('username', static::$validUsername)->first();
+
+    $this->visit(static::$authLoginRoute)
+            ->seeSessionHas(['user_id' => null])
+            ->type(static::$validUsername, 'username')
+            ->type(static::$validPassword, 'password')
+            ->press('login')
+            ->seePageIs(static::$authLoginSuccessRoute)
+            ->seeSessionHas(['user_id' => $user->id])
+            ->visit(static::$authLogoutRoute)
+            ->seePageIs(static::$authLogoutSuccessRoute)
+            ->seeSessionHas(['user_id' => null]);
+}</code></pre>
+                    </section>
+                    
+                    <section>
+                        <h2>The Simplicity</h2>
+                        <pre class='fragment'><code class='php'>namespace Test\Http\Controllers;
+
+use CloudCompli\Common\Tests\Http\Controllers\AuthControllerTest 
+    as BaseAuthControllerTest;
+
+class AuthControllerTest extends BaseAuthControllerTest
+{
+    public static $authLoginRoute = '/auth/login';
+    public static $authLogoutRoute = '/auth/logout';
+    public static $authLoginSuccessRoute = '/';
+    public static $authLoginAlreadyAuthenticatedRoute = '/';
+    public static $authLoginReturnToExistingPath = '/dashboard';
+    public static $authLogoutSuccessRoute = '/';
+}</code></pre>
+                    </section>
+                    
+                </section>
+                
+                <section>
+                    
+                    <section>
+                        <h2>Putting It All Together</h2>
+                    </section>
+                    
+                    <section>
+                        <h2>Continuous Integration</h2>
+                        <p class='fragment'>Centralized automation for <strong>running</strong> and <strong>monitoring</strong> tests</p>
+                        <p><em class='fragment'>Run after every commit</em>
+                            <br><em class='fragment'>Catch failing tests quickly</em>
+                        </p>
+                        <p class='fragment'><strong>Quick feedback cycle</strong></p>
+                    </section>
+                    
+                    <section>
+                        <h2>Continuous Deployment</h2>
+                        <p class='fragment'>With continuous integration,
+                            <br><span class='fragment'>we get build products after every commit</span></p>
+                        <p class='fragment'><strong>Why wait to deploy a build?</strong></p>
+                        <p class='fragment'>
+                            <strong>Smaller batches reduce...</strong>
+                            <br><em class='fragment'>release complexity</em>
+                            <br><em class='fragment'>feedback cycle times</em>
+                            <br><em class='fragment'>product risk</em>
+                        </p>
+                    </section>
+                    
+                    <section>
+                        <h2>Modules</h2>
+                        <p class='fragment'>
+                            <strong>Pull request</strong>
+                            <br><em class='fragment'>Code review by peer</em>
+                            <br><em class='fragment'>CI runs tests</em>
+                        </p>
+                        <p class='fragment'>
+                            <strong>Verification</strong>
+                            <br><em class='fragment'>Code review by peer</em>
+                            <br><em class='fragment'>CI runs tests</em>
+                        </p>
+                        <p class='fragment'>
+                            <strong>Acceptance</strong>
+                            <br><em class='fragment'>IM merges pull request</em>
+                            <br><em class='fragment'>CI runs tests</em>
+                            <br><em class='fragment'>CI cuts a tag</em>
+                        </p>
+                    </section>
+                    
+                    <section>
+                        <h2>Instance</h2>
+                        <p class='fragment'>
+                            <strong>Implementation changes</strong>
+                            <br><em class='fragment'>Change package version numbers</em>
+                            <br><em class='fragment'>Add other customizations</em>
+                        </p>
+                        <p class='fragment'>
+                            <strong>Union</strong>
+                            <br><em class='fragment'>Code review by peer</em>
+                            <br><em class='fragment'>CI runs tests</em>
+                            <br><em class='fragment'>IM merges pull request</em>
+                            <br><em class='fragment'>CI runs tests</em>
+                            <br><em class='fragment'>CI cuts a tag</em>
+                        </p>
+                    </section>
+                    
+                    <section>
+                        <h2>Deployment</h2>
+                        <p class='fragment'>
+                            <strong>Rehearsal</strong>
+                            <br><em class='fragment'>Deploy script triggered by sysadmin</em>
+                            <br><em class='fragment'>Tarball generated of source code</em>
+                            <br><em class='fragment'>Production state duplicated to pre-prod environment</em>
+                            <br><em class='fragment'>Deploy is run on pre-prod environment</em>
+                            <br><em class='fragment'>QA against pre-prod instance</em>
+                        </p>
+                        <p class='fragment'>
+                            <strong>Deployment</strong>
+                            <br><em class='fragment'>Deploy script triggered by sysadmin</em>
+                            <br><em class='fragment'>Production state is backed up</em>
+                            <br><em class='fragment'>Deploy is run on production environment</em>
+                        </p>
+                    </section>
+                    
+                    <section>
+                        <h2>How?</h2>
+                        <p class='fragment'>Infrastructure-as-code</p>
+                        <p class='fragment'>Deployment Scripts</p>
+                        <p class='fragment'>Tests</p>
+                    </section>
+                    
+                </section>
+                
+                <section>
+					<h1>Thank You</h1>
+                    <h2>So Let's Write Tests!</h2>
+					<p>
+						<small>Eric Bollens / <a href="mailto:eric@eb.io">eric@eb.io</a> / <a href="http://github.com/ebollens">ebollens [GitHub]</a> / <a href="http://twitter.com/ericbollens">@ericbollens [Twitter]</a></small>
+					</p>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="../lib/js/head.min.js"></script>
+		<script src="../js/reveal.js"></script>
+
+		<script>
+
+			// Full list of configuration options available at:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// Optional reveal.js plugins
+				dependencies: [
+					{ src: '../lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: '../plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: '../plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: '../plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: '../plugin/zoom-js/zoom.js', async: true },
+					{ src: '../plugin/notes/notes.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
