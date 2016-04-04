@@ -1,0 +1,20 @@
+<script type='text/javascript'>
+    window.VideoPopupFigureElement = document.registerElement('youtube-video-popup', {
+        extends: 'figure',
+        prototype: Object.create(HTMLInputElement.prototype, {
+            attachedCallback: {
+                value: function(){
+                    var id = $(this).attr('data-id'),
+                        $caption = $(this).find('figcaption');
+                    $(this).prepend('<img src="http://img.youtube.com/vi/'+id+'/0.jpg">');
+                    $(this).click(function(){
+                        $('<figure is="lightbox-container">')
+                                .append('<main><iframe src="https://www.youtube.com/embed/'+id+'" frameborder="0" allowfullscreen></iframe></main>')
+                                .append($caption.clone(true))
+                                .appendTo('body');
+                    });
+                }
+            }
+        })
+    });
+</script>

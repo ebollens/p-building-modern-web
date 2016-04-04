@@ -1,0 +1,56 @@
+<script type='text/javascript'>
+    window.LightboxContainerFigureElement = document.registerElement('lightbox-container', {
+        extends: 'figure',
+        prototype: Object.create(HTMLInputElement.prototype, {
+            attachedCallback: {
+                value: function(){
+                    var lightbox = this;
+                    $('body').find('[is="lightbox-container"]').each(function(){
+                        if(this != lightbox){
+                            $(this).remove();
+                        }
+                    })
+                    var $background = $('<div id="lightbox-container-overlay">')
+                            .click(function(){
+                                $(lightbox).remove();
+                                $(this).remove();
+                            });
+                    $('body').append($background);
+                }
+            }
+        })
+    });
+</script>
+
+<style>
+    figure[is="lightbox-container"]{
+        position: fixed;
+        top: 5%;
+        left: 5%;
+        right: 5%;
+        bottom: 5%;
+        box-sizing: border-box;
+        text-align: center;
+        background-color: #fff;
+        padding: 40px;
+        border-radius: 10px;
+        z-index: 2;
+        border: 2px solid #000;
+    }
+    #lightbox-container-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #000;
+        opacity: 0.2;
+        z-index: 1;
+    }
+    
+    figure[is="lightbox-container"] iframe {
+        max-width: 100%;
+        height: 400px;
+        width: 100%;
+    }
+</style>

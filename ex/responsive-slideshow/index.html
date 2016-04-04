@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <title></title>
+
+        <!-- Polyfill for Custom Elements, Template, Shadow DOM and HTML Imports -->
+        <script type="text/javascript" src="libraries/webcomponents.js"></script>
+
+        <!-- Polyfill for ES6 syntax needed for the ES6 Module Loader -->
+        <script type='text/javascript' src="libraries/traceur.js"></script>
+
+        <!-- Polyfill for ES6 module loading as used by several elements with dependencies -->
+        <script type='text/javascript' src="libraries/es6-module-loader.js"></script>
+
+        <!-- Web Component definitions as an HTML import (recursively loads the individual elements) -->
+        <link rel='import' href='elements.html'>
+
+        <link rel='stylesheet' href='styles.css'>
+
+    </head>
+
+    <body>
+
+        <h1>Web Components Example: Responsive Video Gallery</h1>
+
+        <ol is="responsive-gallery">
+            <li>
+                <figure is="youtube-video-popup" data-id="uGpAP8qgSqk">
+                    <figcaption>CloudCompli</figcaption>
+                </figure>
+            </li>
+            <li>
+                <figure is="youtube-video-popup" data-id="0dNKXljxCyQ">
+                    <figcaption>Low Cost BMPs</figcaption>
+                </figure>
+            </li>
+            <li>
+                <figure is="youtube-video-popup" data-id="uGpAP8qgSqk">
+                    <figcaption>CloudCompli</figcaption>
+                </figure>
+            </li>
+            <li>
+                <figure is="youtube-video-popup" data-id="0dNKXljxCyQ">
+                    <figcaption>Low Cost BMPs</figcaption>
+                </figure>
+            </li>
+            <li>
+                <figure is="youtube-video-popup" data-id="uGpAP8qgSqk">
+                    <figcaption>CloudCompli</figcaption>
+                </figure>
+            </li>
+            <li>
+                <figure is="youtube-video-popup" data-id="0dNKXljxCyQ">
+                    <figcaption>Low Cost BMPs</figcaption>
+                </figure>
+            </li>
+            <li>
+                <figure is="youtube-video-popup" data-id="uGpAP8qgSqk">
+                    <figcaption>CloudCompli</figcaption>
+                </figure>
+            </li>
+            <li>
+                <figure is="youtube-video-popup" data-id="0dNKXljxCyQ">
+                    <figcaption>Low Cost BMPs</figcaption>
+                </figure>
+            </li>
+        </ol>
+
+    </body>
+
+</html>

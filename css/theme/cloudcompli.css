@@ -165,7 +165,7 @@ body {
 .reveal code {
   font-family: monospace; }
 
-.reveal pre code {
+.reveal pre code, .reveal pre  {
   display: block;
   padding: 5px;
   overflow: auto;
